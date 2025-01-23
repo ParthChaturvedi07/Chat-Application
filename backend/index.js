@@ -8,9 +8,13 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const cors = require("cors");
+const http = require("http"); // Required to create the server
+const { Server } = require("socket.io"); // Import `Server` for Socket.IO
+
 env.config();
 const app = express();
 
+// Middleware
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -56,17 +60,21 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
+// Create HTTP Server
+const PORT = process.env.PORT || 8000;
+const server = http.createServer(app);
 
-const io = require("socket.io")(server, {
+// Initialize Socket.IO
+const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "*", // Adjust this to restrict origins in production
   },
-  pingTimeout: 60000,
+  pingTimeout: 60000, // Timeout for idle connections
 });
 
 io.on("connection", (socket) => {
   console.log("Socket.IO: Connection established");
-  
+
   socket.on("setup", (user) => {
     if (user?.data?._id) {
       socket.join(user.data._id);
@@ -76,7 +84,7 @@ io.on("connection", (socket) => {
       console.error("Setup failed: User ID not found in data");
     }
   });
-  
+
   socket.on("join chat", (room) => {
     if (room) {
       socket.join(room);
@@ -91,22 +99,20 @@ io.on("connection", (socket) => {
     if (!chat?.users) {
       return console.error("Chat users not defined in newMessageStatus");
     }
-    
+
     chat.users.forEach((user) => {
       if (user._id !== newMessageStatus?.sender?._id) {
         socket.to(user._id).emit("message received", newMessageStatus);
       }
     });
   });
-  
+
   socket.on("disconnect", () => {
     console.log("Socket.IO: User disconnected");
   });
 });
 
 // Start Server
-const PORT = process.env.PORT || 8000;
-
-const server = app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
