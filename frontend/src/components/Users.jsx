@@ -110,7 +110,7 @@ export const Users = () => {
                     },
                   };
                   axios.post(
-                    "http://localhost:8000/chat/",
+                    "https://chat-application-backend-t0kj.onrender.com/chat/",
                     {
                       userId: user._id,
                     },
