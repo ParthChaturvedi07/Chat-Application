@@ -40,7 +40,7 @@ export const SideBar = () => {
     };
 
     axios
-      .get("http://localhost:8000/chat/", {
+      .get("https://chat-application-backend-t0kj.onrender.com/chat/", {
         ...config,
         withCredentials: true,
       })
