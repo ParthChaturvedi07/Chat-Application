@@ -45,13 +45,13 @@ export const SideBar = () => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log("Data refresh in sidebar", response.data.data);
+        // console.log("Data refresh in sidebar", response.data.data);
         setConversations(response.data.data);
       })
       .catch((error) => {
-        console.error("Error fetching conversations:", error);
+        // console.error("Error fetching conversations:", error);
         setConversations([]);
-        console.log(conversations);
+        // console.log(conversations);
       });
   }, [refresh]);
 
@@ -131,7 +131,7 @@ export const SideBar = () => {
               <div
                 key={index}
                 onClick={() => {
-                  console.log("Refresh Fired from sidebar");
+                  // console.log("Refresh Fired from sidebar");
                   // dispatch(refreshSidebarFun());
                   setRefresh(!refresh);
                 }}

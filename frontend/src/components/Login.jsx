@@ -36,7 +36,7 @@ export const Login = () => {
         }
       );
       
-      console.log(response);
+      // console.log(response);
       setLoginStatus({ msg: "Success", key: Math.random() });
       setLoading(false);
       localStorage.setItem("userData", JSON.stringify(response.data));
