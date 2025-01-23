@@ -56,12 +56,6 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
 const io = require("socket.io")(server, {
   cors: {
@@ -72,7 +66,7 @@ const io = require("socket.io")(server, {
 
 io.on("connection", (socket) => {
   console.log("Socket.IO: Connection established");
-
+  
   socket.on("setup", (user) => {
     if (user?.data?._id) {
       socket.join(user.data._id);
@@ -82,7 +76,7 @@ io.on("connection", (socket) => {
       console.error("Setup failed: User ID not found in data");
     }
   });
-
+  
   socket.on("join chat", (room) => {
     if (room) {
       socket.join(room);
@@ -97,15 +91,22 @@ io.on("connection", (socket) => {
     if (!chat?.users) {
       return console.error("Chat users not defined in newMessageStatus");
     }
-
+    
     chat.users.forEach((user) => {
       if (user._id !== newMessageStatus?.sender?._id) {
         socket.to(user._id).emit("message received", newMessageStatus);
       }
     });
   });
-
+  
   socket.on("disconnect", () => {
     console.log("Socket.IO: User disconnected");
   });
+});
+
+// Start Server
+const PORT = process.env.PORT || 8000;
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
