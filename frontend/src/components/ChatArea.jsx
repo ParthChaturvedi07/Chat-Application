@@ -28,7 +28,7 @@ export const ChatArea = ({ props }) => {
   const [socketConnectionStatus, setSocketConnectionStatus] = useState(false);
 
   const sendMessage = () => {
-    // console.log("SendMessage Fired to", chat_id._id);
+    console.log("SendMessage Fired to", chat_id._id);
 
 
 
@@ -55,7 +55,7 @@ export const ChatArea = ({ props }) => {
         data = response;
         console.log("Message Fired");
       });
-    // console.log("Message sent:", data);
+    console.log("Message sent:", data);
     socket.emit("newMessage", data);
   };
 
@@ -90,13 +90,13 @@ export const ChatArea = ({ props }) => {
         withCredentials: true,
       })
       .then(({ data }) => {
-        // console.log("Messages fetched: ", data);
+        console.log("Messages fetched: ", data);
         setAllMessages(data.data || []);
         setLoaded(true);
         socket.emit("join chat", chat_id);
       })
       .catch((err) => {
-        // console.error("Error fetching messages:", err);
+        console.error("Error fetching messages:", err);
       });
 
     setAllMessagesCopy(allMessages);
@@ -124,7 +124,7 @@ export const ChatArea = ({ props }) => {
             const self_id = userData.user.id;
 
             if (!sender || !sender.name) {
-              // console.warn("Message sender is undefined for message:", message); // Debug log
+              console.warn("Message sender is undefined for message:", message); // Debug log
               return null;
             }
 
