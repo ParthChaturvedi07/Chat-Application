@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { myContext } from "./MainContainer";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:8000";
+const ENDPOINT = "https://chat-application-backend-t0kj.onrender.com";
 var socket, chat;
 export const ChatArea = ({ props }) => {
   const lightTheme = useSelector((state) => state.themeKey);
@@ -41,7 +41,7 @@ export const ChatArea = ({ props }) => {
 
     axios
       .post(
-        "http://localhost:8000/message/",
+        "https://chat-application-backend-t0kj.onrender.com/message/",
         {
           content: messageContent,
           chatId: chat_id,
@@ -85,7 +85,7 @@ export const ChatArea = ({ props }) => {
       },
     };
     axios
-      .get("http://localhost:8000/message/" + chat_id, {
+      .get("https://chat-application-backend-t0kj.onrender.com/message/" + chat_id, {
         ...config,
         withCredentials: true,
       })
