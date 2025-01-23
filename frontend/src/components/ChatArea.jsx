@@ -35,7 +35,7 @@ export const ChatArea = ({ props }) => {
     var data = null;
     const config = {
       headers: {
-        Authorization: `Bearer${userData.token}`,
+        Authorization: `Bearer ${userData.token}`,
       },
     };
 
@@ -81,7 +81,7 @@ export const ChatArea = ({ props }) => {
   useEffect(() => {
     const config = {
       headers: {
-        Authorization: `Bearer${userData.token}`,
+        Authorization: `Bearer ${userData.token}`,
       },
     };
     axios
