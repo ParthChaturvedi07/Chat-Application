@@ -17,7 +17,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://chat-application-ar98.onrender.com",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Specify allowed methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allow credentials (cookies)
@@ -60,16 +60,14 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-// Create HTTP Server
 const PORT = process.env.PORT || 8000;
 const server = http.createServer(app);
 
-// Initialize Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "*", // Adjust this to restrict origins in production
+    origin: "*", 
   },
-  pingTimeout: 60000, // Timeout for idle connections
+  pingTimeout: 60000, 
 });
 
 io.on("connection", (socket) => {
