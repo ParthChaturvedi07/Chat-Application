@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const UserModel = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 const isLoggedIn = require("../middleware/isLoggedIn");
