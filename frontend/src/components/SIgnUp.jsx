@@ -28,7 +28,7 @@ export const SignUp = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:8000/user/register/",
+        "https://chat-application-backend-t0kj.onrender.com/user/register/",
         data,
         {
           ...config, // Include any existing headers or configurations you already have
