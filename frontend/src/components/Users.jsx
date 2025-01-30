@@ -43,7 +43,7 @@ export const Users = () => {
     };
 
     axios
-      .get("http://localhost:8000/user/fetchUsers", {
+      .get("https://chat-application-backend-t0kj.onrender.com/user/fetchUsers", {
         ...config,
         withCredentials: true,
       })
@@ -116,8 +116,10 @@ export const Users = () => {
                     },
                   };
                   axios.post(
-                    "http://localhost:8000/chat/",
-                    { userId: user._id },
+                    "https://chat-application-backend-t0kj.onrender.com/chat/",
+                    {
+                      userId: user._id,
+                    },
                     {
                       ...config,
                       withCredentials: true,

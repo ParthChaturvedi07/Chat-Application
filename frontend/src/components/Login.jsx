@@ -28,7 +28,7 @@ export const Login = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:8000/user/login/",
+        "https://chat-application-backend-t0kj.onrender.com/user/login/",
         data,
         {
           ...config,

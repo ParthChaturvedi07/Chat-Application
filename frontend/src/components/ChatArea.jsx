@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { myContext } from "./MainContainer";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:8000";
+const ENDPOINT = "https://chat-application-backend-t0kj.onrender.com";
 var socket, chat;
 export const ChatArea = ({ props }) => {
   const lightTheme = useSelector((state) => state.themeKey);
@@ -28,20 +28,20 @@ export const ChatArea = ({ props }) => {
   const [socketConnectionStatus, setSocketConnectionStatus] = useState(false);
 
   const sendMessage = () => {
-    // console.log("SendMessage Fired to", chat_id._id);
+    console.log("SendMessage Fired to", chat_id._id);
 
 
 
     var data = null;
     const config = {
       headers: {
-        Authorization: `Bearer${userData.token}`,
+        Authorization: `Bearer ${userData.token}`,
       },
     };
 
     axios
       .post(
-        "http://localhost:8000/message/",
+        "https://chat-application-backend-t0kj.onrender.com/message/",
         {
           content: messageContent,
           chatId: chat_id,
@@ -55,7 +55,7 @@ export const ChatArea = ({ props }) => {
         data = response;
         console.log("Message Fired");
       });
-    // console.log("Message sent:", data);
+    console.log("Message sent:", data);
     socket.emit("newMessage", data);
   };
 
@@ -81,22 +81,22 @@ export const ChatArea = ({ props }) => {
   useEffect(() => {
     const config = {
       headers: {
-        Authorization: `Bearer${userData.token}`,
+        Authorization: `Bearer ${userData.token}`,
       },
     };
     axios
-      .get("http://localhost:8000/message/" + chat_id, {
+      .get("https://chat-application-backend-t0kj.onrender.com/message/" + chat_id, {
         ...config,
         withCredentials: true,
       })
       .then(({ data }) => {
-        // console.log("Messages fetched: ", data);
+        console.log("Messages fetched: ", data);
         setAllMessages(data.data || []);
         setLoaded(true);
         socket.emit("join chat", chat_id);
       })
       .catch((err) => {
-        // console.error("Error fetching messages:", err);
+        console.error("Error fetching messages:", err);
       });
 
     setAllMessagesCopy(allMessages);
@@ -124,7 +124,7 @@ export const ChatArea = ({ props }) => {
             const self_id = userData.user.id;
 
             if (!sender || !sender.name) {
-              // console.warn("Message sender is undefined for message:", message); // Debug log
+              console.warn("Message sender is undefined for message:", message); // Debug log
               return null;
             }
 
