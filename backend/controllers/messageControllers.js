@@ -32,7 +32,7 @@ const sendMessage = async (req, res) => {
     const message = await MessageModel.create(newMessage);
     console.log(message);
 
-    message = await message.populate("sender", "name pic");
+    message = await message.populate("sender", "name");
     message = await message.populate("chat");
     message = await message.populate("receiver");
     message = await UserModel.populate(message, {

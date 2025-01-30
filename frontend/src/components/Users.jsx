@@ -15,9 +15,11 @@ export const Users = () => {
   const { refresh, setRefresh } = useContext(myContext);
   const lightTheme = useSelector((state) => state.themeKey);
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true); // Track loading state
   const userData = JSON.parse(localStorage.getItem("userData"));
   const dispatch = useDispatch();
   const nav = useNavigate();
+
   useEffect(() => {
     if (!userData || !userData.token) {
       console.error("Token not found. Redirecting to login.");
@@ -50,12 +52,10 @@ export const Users = () => {
         setUsers(response.data);
       })
       .catch((error) => {
-        if (error.response) {
-          console.error("Error Response: ", error.response.data);
-          console.error("Status: ", error.response.status);
-        } else {
-          console.error("Error: ", error.message);
-        }
+        console.error("Error fetching users:", error);
+      })
+      .finally(() => {
+        setLoading(false); // Stop loading when request is complete
       });
   }, [refresh]);
 
@@ -82,6 +82,7 @@ export const Users = () => {
           />
           <p className="ug-title">Online users</p>
         </div>
+
         <div className={"sb-search" + (lightTheme ? "" : " dark")}>
           <IconButton>
             <SearchIcon />
@@ -91,9 +92,14 @@ export const Users = () => {
             className={"search-box" + (lightTheme ? "" : " dark")}
           />
         </div>
+
         <div className="ug-list">
-          {users.map((user, index) => {
-            return (
+          {loading ? (
+            <p className="loading-text">Loading users...</p>
+          ) : users.length === 0 ? (
+            <p className="no-users-text">No users found.</p>
+          ) : (
+            users.map((user, index) => (
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -111,9 +117,7 @@ export const Users = () => {
                   };
                   axios.post(
                     "http://localhost:8000/chat/",
-                    {
-                      userId: user._id,
-                    },
+                    { userId: user._id },
                     {
                       ...config,
                       withCredentials: true,
@@ -126,14 +130,14 @@ export const Users = () => {
                   {user.name[0]}
                 </p>
                 <p className={"con-title" + (lightTheme ? "" : " dark")}>
-                  {user.name || "Test User"}{" "}
-                  {/* Changed static text to dynamic */}
+                  {user.name || "Test User"}
                 </p>
               </motion.div>
-            );
-          })}
+            ))
+          )}
         </div>
       </motion.div>
     </AnimatePresence>
   );
 };
+

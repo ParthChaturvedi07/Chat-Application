@@ -31,8 +31,8 @@ export const SignUp = () => {
         "http://localhost:8000/user/register/",
         data,
         {
-          ...config, // Include any existing headers or configurations you already have
-          withCredentials: true, // This allows cookies to be sent and received
+          ...config, 
+          withCredentials: true, 
         }
       );
       
